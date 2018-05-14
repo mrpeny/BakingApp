@@ -1,8 +1,13 @@
 package eu.captaincode.bakingapp.model;
 
+import com.google.gson.annotations.SerializedName;
+
 public class Ingredient {
+    @SerializedName("quantity")
     private float mQuantity;
+    @SerializedName("measure")
     private String mMeasure;
+    @SerializedName("ingredient")
     private String mIngredient;
 
     public Ingredient(int mQuantity, String mMeasure, String mIngredient) {

@@ -1,14 +1,22 @@
 package eu.captaincode.bakingapp.model;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class Recipe {
+    @SerializedName("id")
     private int mId;
+    @SerializedName("name")
     private String mName;
+    @SerializedName("ingredients")
     private List<Ingredient> mIngredients = new ArrayList<>();
+    @SerializedName("steps")
     private List<Step> mSteps = new ArrayList<>();
+    @SerializedName("servings")
     private int mServings;
+    @SerializedName("image")
     private String mImageUrl;
 
     public Recipe(int mId, String mName, List<Ingredient> mIngredients, List<Step> mSteps, int mServings, String mImageUrl) {
