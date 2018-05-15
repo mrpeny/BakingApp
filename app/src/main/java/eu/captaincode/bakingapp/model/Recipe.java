@@ -1,10 +1,25 @@
 package eu.captaincode.bakingapp.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-public class Recipe {
+public class Recipe implements Parcelable {
+    public static final Creator<Recipe> CREATOR = new Creator<Recipe>() {
+        @Override
+        public Recipe createFromParcel(Parcel in) {
+            return new Recipe(in);
+        }
+
+        @Override
+        public Recipe[] newArray(int size) {
+            return new Recipe[size];
+        }
+    };
+
     @SerializedName("id")
     private int mId;
     @SerializedName("name")
@@ -25,6 +40,30 @@ public class Recipe {
         this.mSteps = mSteps;
         this.mServings = mServings;
         this.mImageUrl = mImageUrl;
+    }
+
+    private Recipe(Parcel in) {
+        mId = in.readInt();
+        mName = in.readString();
+        mIngredients = in.createTypedArrayList(Ingredient.CREATOR);
+        mSteps = in.createTypedArrayList(Step.CREATOR);
+        mServings = in.readInt();
+        mImageUrl = in.readString();
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(mId);
+        dest.writeString(mName);
+        dest.writeTypedList(mIngredients);
+        dest.writeTypedList(mSteps);
+        dest.writeInt(mServings);
+        dest.writeString(mImageUrl);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
     }
 
     public int getId() {
