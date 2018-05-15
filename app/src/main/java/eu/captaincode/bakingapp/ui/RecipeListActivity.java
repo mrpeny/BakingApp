@@ -1,5 +1,6 @@
 package eu.captaincode.bakingapp.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
@@ -44,5 +45,9 @@ public class RecipeListActivity extends AppCompatActivity
     @Override
     public void onRecipeClicked(int position) {
         Toast.makeText(this, "Clicked: " + mRecipeList.get(position).getName(), Toast.LENGTH_SHORT).show();
+        Intent launchDetailActivityIntent = new Intent(this, RecipeDetailActivity.class);
+        Recipe recipe = mRecipeList.get(position);
+        launchDetailActivityIntent.putExtra(RecipeDetailActivity.EXTRA_RECIPE, recipe);
+        startActivity(launchDetailActivityIntent);
     }
 }
