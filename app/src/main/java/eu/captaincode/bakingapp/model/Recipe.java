@@ -2,7 +2,6 @@ package eu.captaincode.bakingapp.model;
 
 import com.google.gson.annotations.SerializedName;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class Recipe {
@@ -11,9 +10,9 @@ public class Recipe {
     @SerializedName("name")
     private String mName;
     @SerializedName("ingredients")
-    private List<Ingredient> mIngredients = new ArrayList<>();
+    private List<Ingredient> mIngredients;
     @SerializedName("steps")
-    private List<Step> mSteps = new ArrayList<>();
+    private List<Step> mSteps;
     @SerializedName("servings")
     private int mServings;
     @SerializedName("image")
@@ -36,7 +35,7 @@ public class Recipe {
         this.mId = id;
     }
 
-    public String getmName() {
+    public String getName() {
         return mName;
     }
 
