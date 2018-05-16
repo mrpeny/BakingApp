@@ -17,10 +17,13 @@ public class StepAdapter extends RecyclerView.Adapter<StepAdapter.ViewHolder> {
 
     private Context mContext;
     private List<Step> mStepList;
+    private OnStepClickedListener mOnStepClickedListener;
 
-    public StepAdapter(Context mContext, List<Step> mStepList) {
+    public StepAdapter(Context mContext, List<Step> mStepList,
+                       OnStepClickedListener onStepClickedListener) {
         this.mContext = mContext;
         this.mStepList = mStepList;
+        this.mOnStepClickedListener = onStepClickedListener;
     }
 
     @NonNull
@@ -40,12 +43,23 @@ public class StepAdapter extends RecyclerView.Adapter<StepAdapter.ViewHolder> {
         return mStepList.size();
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder {
+    public interface OnStepClickedListener {
+        void onStepClicked(int stepPosition);
+    }
+
+    class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private TextView shortDescriptionTextView;
 
         ViewHolder(View itemView) {
             super(itemView);
             shortDescriptionTextView = itemView.findViewById(R.id.tv_step_item_short_description);
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            int position = getAdapterPosition();
+            mOnStepClickedListener.onStepClicked(position);
         }
     }
 }

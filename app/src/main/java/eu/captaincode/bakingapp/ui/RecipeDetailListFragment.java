@@ -1,7 +1,6 @@
 package eu.captaincode.bakingapp.ui;
 
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -16,12 +15,11 @@ import eu.captaincode.bakingapp.adapter.IngredientAdapter;
 import eu.captaincode.bakingapp.adapter.StepAdapter;
 import eu.captaincode.bakingapp.model.Recipe;
 
-public class RecipeDetailListFragment extends Fragment {
+public class RecipeDetailListFragment extends Fragment implements StepAdapter.OnStepClickedListener {
     private static final String ARG_RECIPE = "recipe";
 
     private Recipe mRecipe;
-
-    private OnFragmentInteractionListener mListener;
+    private OnStepSelectedListener mListener;
 
     public RecipeDetailListFragment() {
         // Required empty public constructor
@@ -54,28 +52,22 @@ public class RecipeDetailListFragment extends Fragment {
         ingredientRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         RecyclerView stepRecyclerView = fragmentView.findViewById(R.id.rv_recipe_detail_step_list);
-        StepAdapter stepAdapter = new StepAdapter(getContext(), mRecipe.getSteps());
+        StepAdapter stepAdapter = new StepAdapter(getContext(), mRecipe.getSteps(), this);
         stepRecyclerView.setAdapter(stepAdapter);
         stepRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         return fragmentView;
     }
 
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
-    }
-
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        /*if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
+        if (context instanceof OnStepSelectedListener) {
+            mListener = (OnStepSelectedListener) context;
         } else {
             throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }*/
+                    + " must implement OnStepSelectedListener");
+        }
     }
 
     @Override
@@ -84,7 +76,12 @@ public class RecipeDetailListFragment extends Fragment {
         mListener = null;
     }
 
-    public interface OnFragmentInteractionListener {
-        void onFragmentInteraction(Uri uri);
+    @Override
+    public void onStepClicked(int stepPosition) {
+        mListener.onStepSelected(stepPosition);
+    }
+
+    public interface OnStepSelectedListener {
+        void onStepSelected(int stepPosition);
     }
 }

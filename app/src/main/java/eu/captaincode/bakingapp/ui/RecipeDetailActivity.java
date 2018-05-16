@@ -7,7 +7,8 @@ import android.support.v7.app.AppCompatActivity;
 import eu.captaincode.bakingapp.R;
 import eu.captaincode.bakingapp.model.Recipe;
 
-public class RecipeDetailActivity extends AppCompatActivity {
+public class RecipeDetailActivity extends AppCompatActivity
+        implements RecipeDetailListFragment.OnStepSelectedListener {
     public static final String EXTRA_RECIPE = "recipe";
 
     private boolean mTwoPane;
@@ -32,5 +33,23 @@ public class RecipeDetailActivity extends AppCompatActivity {
         getSupportFragmentManager().beginTransaction()
                 .add(R.id.container_recipe_detail_list, recipeDetailListFragment)
                 .commit();
+    }
+
+    @Override
+    public void onStepSelected(int stepPosition) {
+        if (mTwoPane) {
+            StepDetailFragment stepDetailFragment = StepDetailFragment.newInstance(mRecipe,
+                    stepPosition);
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.container_step_detail, stepDetailFragment)
+                    .commit();
+        } else {
+            Intent startStepDetailActivityIntent = new Intent(this, StepDetailActivity.class);
+            Bundle extras = new Bundle();
+            extras.putParcelable(StepDetailActivity.ARG_RECIPE, mRecipe);
+            extras.putInt(StepDetailActivity.ARG_STEP_POSITION, stepPosition);
+            startStepDetailActivityIntent.putExtras(extras);
+            startActivity(startStepDetailActivityIntent);
+        }
     }
 }

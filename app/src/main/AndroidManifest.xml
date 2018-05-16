@@ -14,12 +14,17 @@
         <activity android:name=".ui.RecipeListActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
             android:name=".ui.RecipeDetailActivity"
+            android:launchMode="singleTop"
             android:parentActivityName=".ui.RecipeListActivity" />
+        <activity
+            android:name=".ui.StepDetailActivity"
+            android:parentActivityName=".ui.RecipeDetailActivity" />
     </application>
 
 </manifest>
