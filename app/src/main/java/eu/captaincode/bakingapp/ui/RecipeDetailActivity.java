@@ -3,11 +3,8 @@ package eu.captaincode.bakingapp.ui;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 
 import eu.captaincode.bakingapp.R;
-import eu.captaincode.bakingapp.adapter.StepAdapter;
 import eu.captaincode.bakingapp.model.Recipe;
 
 public class RecipeDetailActivity extends AppCompatActivity {
@@ -15,7 +12,6 @@ public class RecipeDetailActivity extends AppCompatActivity {
 
     private boolean mTwoPane;
     private Recipe mRecipe;
-    private StepAdapter mStepAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,13 +23,14 @@ public class RecipeDetailActivity extends AppCompatActivity {
             mRecipe = startingIntent.getParcelableExtra(EXTRA_RECIPE);
         }
 
-        if (findViewById(R.id.fl_recipe_detail_container) != null) {
+        if (findViewById(R.id.container_step_detail) != null) {
             mTwoPane = true;
         }
 
-        RecyclerView stepRecyclerView = findViewById(R.id.rv_recipe_detail_list);
-        mStepAdapter = new StepAdapter(this, mRecipe.getSteps());
-        stepRecyclerView.setAdapter(mStepAdapter);
-        stepRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        RecipeDetailListFragment recipeDetailListFragment =
+                RecipeDetailListFragment.newInstance(mRecipe);
+        getSupportFragmentManager().beginTransaction()
+                .add(R.id.container_recipe_detail_list, recipeDetailListFragment)
+                .commit();
     }
 }

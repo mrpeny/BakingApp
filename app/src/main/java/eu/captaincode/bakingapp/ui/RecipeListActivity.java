@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,7 +43,6 @@ public class RecipeListActivity extends AppCompatActivity
 
     @Override
     public void onRecipeClicked(int position) {
-        Toast.makeText(this, "Clicked: " + mRecipeList.get(position).getName(), Toast.LENGTH_SHORT).show();
         Intent launchDetailActivityIntent = new Intent(this, RecipeDetailActivity.class);
         Recipe recipe = mRecipeList.get(position);
         launchDetailActivityIntent.putExtra(RecipeDetailActivity.EXTRA_RECIPE, recipe);
