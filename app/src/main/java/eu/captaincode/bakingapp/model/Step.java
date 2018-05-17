@@ -91,11 +91,11 @@ public class Step implements Parcelable {
         this.mVideoUrl = videoUrl;
     }
 
-    public String getmThumbnailUrl() {
+    public String getThumbnailUrl() {
         return mThumbnailUrl;
     }
 
-    public void setmThumbnailUrl(String mThumbnailUrl) {
+    public void setThumbnailUrl(String mThumbnailUrl) {
         this.mThumbnailUrl = mThumbnailUrl;
     }
 }
