@@ -53,7 +53,7 @@ public class IngredientAdapter extends RecyclerView.Adapter<IngredientAdapter.Vi
             super(itemView);
             ingredientTextView = itemView.findViewById(R.id.tv_ingredient_item_ingredient);
             quantityTextView = itemView.findViewById(R.id.tv_ingredient_item_quantity);
-            measureTextView = itemView.findViewById(R.id.tv_ingredient_list_measure);
+            measureTextView = itemView.findViewById(R.id.tv_ingredient_item_measure);
         }
     }
 }

@@ -25,6 +25,26 @@
         <activity
             android:name=".ui.StepDetailActivity"
             android:parentActivityName=".ui.RecipeDetailActivity" />
+
+        <receiver android:name=".widget.IngredientsWidgetProvider">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+                <action android:name="eu.captaincode.bakingapp.action.RECIPE_CHANGED" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/ingredients_widget_info" />
+        </receiver>
+
+        <service
+            android:name=".widget.ListWidgetService"
+            android:permission="android.permission.BIND_REMOTEVIEWS" />
+
+        <provider
+            android:name=".provider.generated.BakingProvider"
+            android:authorities="eu.captaincode.bakingapp.provider"
+            android:exported="false" />
     </application>
 
 </manifest>
