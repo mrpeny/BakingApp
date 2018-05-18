@@ -113,4 +113,9 @@ public class Recipe implements Parcelable {
     public void setImageUrl(String imageUrl) {
         this.mImageUrl = imageUrl;
     }
+
+    @Override
+    public String toString() {
+        return getName() + " with servings of " + getServings();
+    }
 }

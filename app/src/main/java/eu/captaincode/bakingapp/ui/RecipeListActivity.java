@@ -47,15 +47,14 @@ public class RecipeListActivity extends AppCompatActivity
     public void onRecipeClicked(int position) {
         Recipe recipe = mRecipeList.get(position);
 
-        sendUpdateWidgetBroadcast(recipe, position);
+        sendUpdateWidgetBroadcast(recipe);
         launchDetailActivity(recipe);
     }
 
-    private void sendUpdateWidgetBroadcast(Recipe recipe, int position) {
-
+    private void sendUpdateWidgetBroadcast(Recipe recipe) {
         Intent intent = new Intent(getApplicationContext(), IngredientsWidgetProvider.class);
         intent.setAction(IngredientsWidgetProvider.ACTION_RECIPE_CHANGED);
-        intent.putExtra(IngredientsWidgetProvider.EXTRA_RECIPE, "Recipe #" + position);
+        intent.putExtra(IngredientsWidgetProvider.EXTRA_RECIPE, recipe);
         getApplicationContext().sendBroadcast(intent);
     }
 
