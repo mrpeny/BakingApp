@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.util.Log;
 import android.widget.RemoteViews;
+import android.widget.Toast;
 
 import eu.captaincode.bakingapp.R;
 import eu.captaincode.bakingapp.model.Recipe;
@@ -21,14 +22,16 @@ public class IngredientsWidgetProvider extends AppWidgetProvider {
     public static final String EXTRA_RECIPE = "recipe";
     private static final String TAG = IngredientsWidgetProvider.class.getSimpleName();
     private Recipe mRecipe;
+    private String mRecipeExtra;
 
     @Override
     public void onReceive(Context context, Intent intent) {
         if (intent != null && intent.getAction().equals(ACTION_RECIPE_CHANGED)) {
             Log.d(TAG, "onRecieve");
+            mRecipeExtra = intent.getStringExtra(EXTRA_RECIPE);
+            Log.d(TAG, mRecipeExtra);
+            Toast.makeText(context, mRecipeExtra, Toast.LENGTH_SHORT).show();
 
-            AppWidgetManager.getInstance(context).notifyAppWidgetViewDataChanged(getAppWidgetIds(context),
-                    R.id.lv_ingredients_widget_ingredients_list);
             onUpdate(context, AppWidgetManager.getInstance(context), getAppWidgetIds(context));
         }
         super.onReceive(context, intent);
@@ -48,9 +51,9 @@ public class IngredientsWidgetProvider extends AppWidgetProvider {
         Intent widgetAdapterIntent = new Intent(context, ListWidgetService.class);
 
         widgetAdapterIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
-        Uri intentUri = Uri.parse(widgetAdapterIntent.toUri(Intent.URI_INTENT_SCHEME));
-        Log.d(TAG, intentUri.toString());
-        widgetAdapterIntent.setData(intentUri);
+        widgetAdapterIntent.putExtra(ListWidgetService.EXTRA_INGREDIENTS, mRecipeExtra);
+        widgetAdapterIntent.setData(Uri.parse(widgetAdapterIntent.toUri(Intent.URI_INTENT_SCHEME)));
+
         views.setRemoteAdapter(R.id.lv_ingredients_widget_ingredients_list, widgetAdapterIntent);
         views.setEmptyView(R.id.lv_ingredients_widget_ingredients_list, R.id.appwidget_empty_text);
 

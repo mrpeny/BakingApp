@@ -2,16 +2,11 @@ package eu.captaincode.bakingapp.widget;
 
 import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
 import android.util.Log;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
 
-import java.util.List;
-
 import eu.captaincode.bakingapp.R;
-import eu.captaincode.bakingapp.model.Ingredient;
-import eu.captaincode.bakingapp.provider.BakingProvider;
 
 public class ListWidgetService extends RemoteViewsService {
     public static final String EXTRA_INGREDIENTS = "ingredients";
@@ -23,8 +18,7 @@ public class ListWidgetService extends RemoteViewsService {
         if (intent != null && intent.hasExtra(EXTRA_INGREDIENTS)) {
             Log.d(TAG, "onGetViewFactory with extra");
 
-            List<Ingredient> ingredients = intent.getParcelableArrayListExtra(EXTRA_INGREDIENTS);
-            return new ListRemoteViewsFactory(this.getApplicationContext());
+            return new ListRemoteViewsFactory(this.getApplicationContext(), intent);
         }
         Log.d(TAG, "onGetViewFactory without extra");
 
@@ -34,12 +28,23 @@ public class ListWidgetService extends RemoteViewsService {
 
 class ListRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
     private static final String TAG = ListRemoteViewsFactory.class.getSimpleName();
+    public static final String EXTRA_INGREDIENTS = "ingredients";
+
     Context mContext;
-    private Cursor mCursor = null;
+    String mRecipeExtra = "";
 
     public ListRemoteViewsFactory(Context mContext) {
         Log.d(TAG, "ListRemoteViewsFactory constructor");
         this.mContext = mContext;
+    }
+
+    public ListRemoteViewsFactory(Context mContext, Intent intent) {
+        this.mContext = mContext;
+        if (intent.hasExtra(EXTRA_INGREDIENTS)) {
+            Log.d(TAG, "ListRemoteViewsFactory constructor");
+            this.mRecipeExtra = intent.getStringExtra(EXTRA_INGREDIENTS);
+            Log.d(TAG, "Has extra: " + mRecipeExtra);
+        }
     }
 
     @Override
@@ -50,9 +55,7 @@ class ListRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
     @Override
     public void onDataSetChanged() {
         Log.d(TAG, "onDataSetChanged");
-        mCursor = mContext.getContentResolver().query(BakingProvider.Ingredients.CONTENT_URI,
-                null, null, null, null);
-        Log.d(TAG, "onDataSetChanged end");
+        //mRecipeExtra = "Recipe extra in ODSC";
     }
 
     @Override
@@ -62,7 +65,7 @@ class ListRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
 
     @Override
     public int getCount() {
-        return mCursor == null ? 0 : mCursor.getCount();
+        return 4;
     }
 
     @Override
@@ -71,12 +74,9 @@ class ListRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
         RemoteViews remoteViews = new RemoteViews(mContext.getPackageName(),
                 R.layout.widget_ingredient_item);
 
-        mCursor.moveToPosition(position);
-
-        remoteViews.setTextViewText(R.id.tv_ingredient_item_ingredient, mCursor.getString(1));
-        remoteViews.setTextViewText(R.id.tv_ingredient_item_measure, mCursor.getString(2));
-        remoteViews.setTextViewText(R.id.tv_ingredient_item_quantity,
-                String.valueOf(mCursor.getFloat(3)));
+        remoteViews.setTextViewText(R.id.tv_ingredient_item_ingredient, mRecipeExtra);
+        remoteViews.setTextViewText(R.id.tv_ingredient_item_measure, mRecipeExtra);
+        remoteViews.setTextViewText(R.id.tv_ingredient_item_quantity, mRecipeExtra);
 
         return remoteViews;
     }
