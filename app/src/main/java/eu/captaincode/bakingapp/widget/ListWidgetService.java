@@ -30,6 +30,7 @@ class ListRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory,
 
     private Context mContext;
     private List<Ingredient> mIngredients = new ArrayList<>();
+    private Recipe mRecipe;
 
     ListRemoteViewsFactory(Context mContext) {
         this.mContext = mContext;
@@ -47,8 +48,8 @@ class ListRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory,
         String recipeJson = PreferenceManager.getDefaultSharedPreferences(mContext)
                 .getString(PREF_KEY_RECIPE, null);
         if (recipeJson != null) {
-            Recipe recipe = new Gson().fromJson(recipeJson, Recipe.class);
-            mIngredients = recipe.getIngredients();
+            mRecipe = new Gson().fromJson(recipeJson, Recipe.class);
+            mIngredients = mRecipe.getIngredients();
         }
     }
 

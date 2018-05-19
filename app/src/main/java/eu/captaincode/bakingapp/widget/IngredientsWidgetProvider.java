@@ -20,12 +20,13 @@ public class IngredientsWidgetProvider extends AppWidgetProvider {
     public static final String ACTION_RECIPE_CHANGED =
             "eu.captaincode.bakingapp.action.RECIPE_CHANGED";
     public static final String EXTRA_RECIPE = "recipe";
+    private Recipe mRecipe;
 
     @Override
     public void onReceive(Context context, Intent intent) {
         if (intent.getAction() != null && intent.getAction().equals(ACTION_RECIPE_CHANGED)) {
-            Recipe recipe = intent.getParcelableExtra(EXTRA_RECIPE);
-            String recipeJson = new Gson().toJson(recipe);
+            mRecipe = intent.getParcelableExtra(EXTRA_RECIPE);
+            String recipeJson = new Gson().toJson(mRecipe);
             PreferenceManager.getDefaultSharedPreferences(context).edit()
                     .putString(ListRemoteViewsFactory.PREF_KEY_RECIPE, recipeJson).apply();
             AppWidgetManager.getInstance(context).notifyAppWidgetViewDataChanged(

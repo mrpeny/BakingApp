@@ -8,37 +8,29 @@
 
     <TextView
         android:id="@+id/tv_ingredient_item_ingredient"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
         app:layout_constraintEnd_toStartOf="@+id/tv_ingredient_item_quantity"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        style="@style/IngredientItemIngredientTextViewStyle"
         tools:text="Nutella or other chocolate-hazelnut" />
 
     <TextView
         android:id="@+id/tv_ingredient_item_quantity"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginTop="8dp"
         app:layout_constraintBottom_toBottomOf="@+id/tv_ingredient_item_ingredient"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.8"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/tv_ingredient_item_ingredient"
+        style="@style/IngredientItemQuantityTextViewStyle"
         tools:text="5.0" />
 
     <TextView
         android:id="@+id/tv_ingredient_item_measure"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
         app:layout_constraintBaseline_toBaselineOf="@id/tv_ingredient_item_quantity"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
+        style="@style/IngredientItemMeasureTextViewStyle"
         tools:text="TBLSP" />
 </android.support.constraint.ConstraintLayout>

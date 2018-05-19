@@ -3,7 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
         <variable
             name="step"
             type="eu.captaincode.bakingapp.model.Step" />
@@ -13,8 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:layout_margin="8dp"
-        tools:context=".ui.StepDetailFragment">
+        android:layout_margin="@dimen/step_detail_linear_layout_margin">
 
         <com.google.android.exoplayer2.ui.SimpleExoPlayerView
             android:id="@+id/exoplayer_step_detail"
@@ -28,7 +26,7 @@
             android:layout_marginTop="16dp"
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
             android:text="@{step.description}"
-            tools:text="5. Beat the cream cheese and 50 grams (1/4 cup) of sugar on medium speed in a stand mixer or high speed with a hand mixer for 3 minutes. Decrease the speed to medium-low and gradually add in the cold cream. Add in 2 teaspoons of vanilla and beat until stiff peaks form." />
+            tools:text="5. Beat the cream cheese and 50 grams (1/4 cup) of sugar" />
 
     </LinearLayout>
 </layout>

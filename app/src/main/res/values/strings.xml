@@ -6,8 +6,9 @@
     <!--StepList texts -->
     <string name="step_list_short_description">%d. %s</string>
     <string name="step_item_thumbnail_content_description">Small thumbnail icon for a cooking step</string>
+    <string name="recipe_image_content_description">Photo of the food this recipe is about</string>
 
     <!-- Widget texts -->
-    <string name="appwidget_empty_text">Click send recipe on the toolbar to show ingredients here</string>
+    <string name="appwidget_empty_text">Click on a Recipe to show its ingredients</string>
     <string name="add_widget">Add widget</string>
 </resources>

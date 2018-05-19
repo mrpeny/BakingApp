@@ -10,20 +10,26 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/rv_recipe_detail_ingredient_list"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="@dimen/margin_recipe_detail_recycler_view"
-            android:nestedScrollingEnabled="false" />
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/iv_recipe_detail_image"
+                style="@style/RecipeDetailImageViewStyle"
+                android:contentDescription="@string/recipe_image_content_description"
+                android:src="@drawable/ingredients" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_recipe_detail_ingredient_list"
+                style="@style/RecipeDetailRecyclerViewStyle" />
+        </LinearLayout>
 
     </android.support.v7.widget.CardView>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_recipe_detail_step_list"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_margin="@dimen/margin_recipe_detail_recycler_view"
-        android:nestedScrollingEnabled="false" />
+        style="@style/RecipeDetailRecyclerViewStyle" />
 
 </LinearLayout>
