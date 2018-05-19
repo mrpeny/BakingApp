@@ -2,13 +2,18 @@ package eu.captaincode.bakingapp.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.VisibleForTesting;
+import android.support.test.espresso.IdlingResource;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import eu.captaincode.bakingapp.IdlingResource.SimpleIdlingResource;
 import eu.captaincode.bakingapp.R;
 import eu.captaincode.bakingapp.adapter.RecipeListAdapter;
 import eu.captaincode.bakingapp.model.Recipe;
@@ -19,11 +24,15 @@ public class RecipeListActivity extends AppCompatActivity
         implements RecipesFetcher.OnRecipesFetchedListener, RecipeListAdapter.OnRecipeClickedListener {
 
 
+    private static final String TAG = RecipeListActivity.class.getSimpleName();
     private List<Recipe> mRecipeList = new ArrayList<>();
     private RecipeListAdapter mAdapter;
+    private SimpleIdlingResource mIdlingResource;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.d(TAG, "onCreate");
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recipe_list);
 
@@ -33,13 +42,23 @@ public class RecipeListActivity extends AppCompatActivity
         int orientationSpecificSpanCount = getResources().getInteger(R.integer.grid_span_count_recipe_list);
         recyclerView.setLayoutManager(new GridLayoutManager(this, orientationSpecificSpanCount));
 
-        new RecipesFetcher(this).execute();
+        getIdlingResource();
+        if (mIdlingResource != null) {
+            mIdlingResource.setIdleState(false);
+        }
+        new RecipesFetcher(this, mIdlingResource).execute();
     }
 
     @Override
     public void onRecipesFetched(List<Recipe> recipeList) {
+        Log.d(TAG, "onRecipesFetched");
+
         if (recipeList != null) {
             mAdapter.swapData(recipeList);
+        }
+
+        if (mIdlingResource != null) {
+            mIdlingResource.setIdleState(true);
         }
     }
 
@@ -62,5 +81,14 @@ public class RecipeListActivity extends AppCompatActivity
         Intent launchDetailActivityIntent = new Intent(this, RecipeDetailActivity.class);
         launchDetailActivityIntent.putExtra(RecipeDetailActivity.EXTRA_RECIPE, recipe);
         startActivity(launchDetailActivityIntent);
+    }
+
+    @VisibleForTesting
+    @NonNull
+    public IdlingResource getIdlingResource() {
+        if (mIdlingResource == null) {
+            mIdlingResource = new SimpleIdlingResource();
+        }
+        return mIdlingResource;
     }
 }
