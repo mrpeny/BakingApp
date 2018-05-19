@@ -1,6 +1,13 @@
 <resources>
     <string name="app_name">Baking App</string>
+    <!-- RecipeListActivity texts -->
     <string name="recipe_list_servings">Servings: %d</string>
+
+    <!--StepList texts -->
+    <string name="step_list_short_description">%d. %s</string>
+    <string name="step_item_thumbnail_content_description">Small thumbnail icon for a cooking step</string>
+
+    <!-- Widget texts -->
     <string name="appwidget_empty_text">Click send recipe on the toolbar to show ingredients here</string>
     <string name="add_widget">Add widget</string>
 </resources>

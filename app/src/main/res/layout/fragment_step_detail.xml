@@ -13,6 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
+        android:layout_margin="8dp"
         tools:context=".ui.StepDetailFragment">
 
         <com.google.android.exoplayer2.ui.SimpleExoPlayerView
@@ -21,22 +22,13 @@
             android:layout_height="wrap_content" />
 
         <TextView
-            android:id="@+id/tv_step_detail_video_url"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@{step.videoUrl}" />
-
-        <TextView
             android:id="@+id/tv_step_detail_detail_description"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@{step.description}" />
-
-        <TextView
-            android:id="@+id/tv_step_detail_thumbnail_url"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@{step.thumbnailUrl}" />
+            android:layout_marginTop="16dp"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+            android:text="@{step.description}"
+            tools:text="5. Beat the cream cheese and 50 grams (1/4 cup) of sugar on medium speed in a stand mixer or high speed with a hand mixer for 3 minutes. Decrease the speed to medium-low and gradually add in the cold cream. Add in 2 teaspoons of vanilla and beat until stiff peaks form." />
 
     </LinearLayout>
 </layout>

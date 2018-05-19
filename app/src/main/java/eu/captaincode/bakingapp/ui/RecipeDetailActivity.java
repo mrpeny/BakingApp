@@ -22,11 +22,13 @@ public class RecipeDetailActivity extends AppCompatActivity
         Intent startingIntent = getIntent();
         if (startingIntent != null && startingIntent.hasExtra(EXTRA_RECIPE)) {
             mRecipe = startingIntent.getParcelableExtra(EXTRA_RECIPE);
+            setTitle(mRecipe.getName());
         }
 
         if (findViewById(R.id.container_step_detail) != null) {
             mTwoPane = true;
         }
+
 
         RecipeDetailListFragment recipeDetailListFragment =
                 RecipeDetailListFragment.newInstance(mRecipe);

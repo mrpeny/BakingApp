@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,6 +42,7 @@ public class StepDetailFragment extends Fragment {
     private SimpleExoPlayer mPlayer;
     private SimpleExoPlayerView mSimpleExoPlayerView;
     private long mVideoPosition;
+    private Step mStep;
 
     public StepDetailFragment() {
         // Required empty public constructor
@@ -61,6 +63,7 @@ public class StepDetailFragment extends Fragment {
         if (getArguments() != null) {
             mRecipe = getArguments().getParcelable(ARG_RECIPE);
             mStepPosition = getArguments().getInt(ARG_STEP_POSITION);
+            mStep = mRecipe.getSteps().get(mStepPosition);
         }
     }
 
@@ -69,13 +72,21 @@ public class StepDetailFragment extends Fragment {
                              Bundle savedInstanceState) {
         FragmentStepDetailBinding stepDetailBinding = DataBindingUtil.inflate(inflater,
                 R.layout.fragment_step_detail, container, false);
-        Step step = mRecipe.getSteps().get(mStepPosition);
-        stepDetailBinding.setStep(step);
-        mSimpleExoPlayerView = stepDetailBinding.exoplayerStepDetail;
+        if (mStep != null) {
+            bindStepToUi(stepDetailBinding);
+        }
         if (savedInstanceState != null) {
             mVideoPosition = savedInstanceState.getLong(VIDEO_POSITION);
         }
         return stepDetailBinding.getRoot();
+    }
+
+    private void bindStepToUi(FragmentStepDetailBinding stepDetailBinding) {
+        stepDetailBinding.setStep(mStep);
+        mSimpleExoPlayerView = stepDetailBinding.exoplayerStepDetail;
+        if (TextUtils.isEmpty(mStep.getVideoUrl())) {
+            stepDetailBinding.exoplayerStepDetail.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -96,7 +107,7 @@ public class StepDetailFragment extends Fragment {
         DataSource.Factory dataSourceFactory = new DefaultDataSourceFactory(getActivity(),
                 Util.getUserAgent(getActivity(), getString(R.string.app_name)));
         ExtractorsFactory extractorsFactory = new DefaultExtractorsFactory();
-        Uri videoUri = Uri.parse(mRecipe.getSteps().get(mStepPosition).getVideoUrl());
+        Uri videoUri = Uri.parse(mStep.getVideoUrl());
         MediaSource videoSource = new ExtractorMediaSource(videoUri, dataSourceFactory,
                 extractorsFactory, null, null);
 
