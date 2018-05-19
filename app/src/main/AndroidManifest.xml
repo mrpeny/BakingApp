@@ -40,11 +40,6 @@
         <service
             android:name=".widget.ListWidgetService"
             android:permission="android.permission.BIND_REMOTEVIEWS" />
-
-        <provider
-            android:name=".provider.generated.BakingProvider"
-            android:authorities="eu.captaincode.bakingapp.provider"
-            android:exported="false" />
     </application>
 
 </manifest>
