@@ -42,10 +42,10 @@ public class StepAdapter extends RecyclerView.Adapter<StepAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        if (!TextUtils.isEmpty(mStepList.get(position).getThumbnailUrl())) {
+        if (TextUtils.isEmpty(mStepList.get(position).getThumbnailUrl())) {
             Picasso.get()
                     .load(mStepList.get(position).getThumbnailUrl())
-                    .placeholder(R.drawable.ic_cake)
+                    .placeholder(R.drawable.ic_cake_vector)
                     .into(holder.thumbnailImageView);
         }
         holder.shortDescriptionTextView.setText(
