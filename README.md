@@ -14,3 +14,13 @@ production. The application has a widget showing the recent recipes.
 * Retrofit for Web API connection and Gson for Json conversion
 * Home screen widget
 * Espresso instrumented UI test with IdlingResource and Intent verification
+
+## Screenshots
+Screenshot 1
+![Screenshot 1](https://github.com/mrpeny/BakingApp/blob/master/screenshots/baking_app_screen1.png "Screenshot 1")
+
+Screenshot 2
+![Screenshot 2](https://github.com/mrpeny/BakingApp/blob/master/screenshots/baking_app_screen2.png "Screenshot 2")
+
+Screenshot 3
+![Screenshot 3](https://github.com/mrpeny/BakingApp/blob/master/screenshots/baking_app_screen3.png "Screenshot 3")
