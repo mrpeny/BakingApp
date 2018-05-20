@@ -8,7 +8,6 @@ import android.support.test.espresso.IdlingResource;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,16 +22,12 @@ import eu.captaincode.bakingapp.widget.IngredientsWidgetProvider;
 public class RecipeListActivity extends AppCompatActivity
         implements RecipesFetcher.OnRecipesFetchedListener, RecipeListAdapter.OnRecipeClickedListener {
 
-
-    private static final String TAG = RecipeListActivity.class.getSimpleName();
     private List<Recipe> mRecipeList = new ArrayList<>();
     private RecipeListAdapter mAdapter;
     private SimpleIdlingResource mIdlingResource;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Log.d(TAG, "onCreate");
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recipe_list);
 
@@ -43,23 +38,17 @@ public class RecipeListActivity extends AppCompatActivity
         recyclerView.setLayoutManager(new GridLayoutManager(this, orientationSpecificSpanCount));
 
         getIdlingResource();
-        if (mIdlingResource != null) {
-            mIdlingResource.setIdleState(false);
-        }
-        new RecipesFetcher(this, mIdlingResource).execute();
+        setAppIdleState(false);
+        new RecipesFetcher(this).execute();
     }
 
     @Override
     public void onRecipesFetched(List<Recipe> recipeList) {
-        Log.d(TAG, "onRecipesFetched");
-
         if (recipeList != null) {
             mAdapter.swapData(recipeList);
         }
 
-        if (mIdlingResource != null) {
-            mIdlingResource.setIdleState(true);
-        }
+        setAppIdleState(true);
     }
 
     @Override
@@ -90,5 +79,11 @@ public class RecipeListActivity extends AppCompatActivity
             mIdlingResource = new SimpleIdlingResource();
         }
         return mIdlingResource;
+    }
+
+    private void setAppIdleState(boolean idle) {
+        if (mIdlingResource != null) {
+            mIdlingResource.setIdleState(idle);
+        }
     }
 }
