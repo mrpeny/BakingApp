@@ -9,7 +9,8 @@ implements video playback features and leverages on popular third party frequent
 production. The application has a widget showing the recent recipes.
 
 ## Tech stack
-* Retrofit
-* Schematic Content provider
-* Home screen widget
 * Master/Detail Flow with Fragments
+* Exoplayer for video playback
+* Retrofit for Web API connection and Gson for Json conversion
+* Home screen widget
+* Espresso instrumented UI test with IdlingResource and Intent verification
