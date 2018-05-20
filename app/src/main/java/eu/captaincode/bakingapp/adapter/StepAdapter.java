@@ -17,6 +17,9 @@ import java.util.List;
 import eu.captaincode.bakingapp.R;
 import eu.captaincode.bakingapp.model.Step;
 
+/**
+ * Populates AdapterViews or RecyclerViews with a list of {@link Step}s.
+ */
 public class StepAdapter extends RecyclerView.Adapter<StepAdapter.ViewHolder> {
 
     private Context mContext;
@@ -47,7 +50,7 @@ public class StepAdapter extends RecyclerView.Adapter<StepAdapter.ViewHolder> {
         }
         holder.shortDescriptionTextView.setText(
                 mContext.getString(R.string.step_list_short_description,
-                mStepList.get(position).getId(), mStepList.get(position).getShortDescription()));
+                        mStepList.get(position).getId(), mStepList.get(position).getShortDescription()));
     }
 
     @Override

@@ -7,6 +7,9 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
+/**
+ * Represents a Recipe to be shown to the user, fetched from the Web resource.
+ */
 public class Recipe implements Parcelable {
     public static final Creator<Recipe> CREATOR = new Creator<Recipe>() {
         @Override

@@ -13,6 +13,9 @@ import java.util.List;
 import eu.captaincode.bakingapp.R;
 import eu.captaincode.bakingapp.model.Ingredient;
 
+/**
+ * Populates AdapterViews or RecyclerViews with a list of {@link Ingredient}s.
+ */
 public class IngredientAdapter extends RecyclerView.Adapter<IngredientAdapter.ViewHolder> {
 
     private List<Ingredient> mIngredients;

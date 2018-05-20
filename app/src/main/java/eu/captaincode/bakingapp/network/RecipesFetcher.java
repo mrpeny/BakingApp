@@ -12,6 +12,10 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+/**
+ * Connects and downloads a list of Recipes from the Web and converts them to a list of Recipe
+ * objects asynchronously.
+ */
 public class RecipesFetcher extends AsyncTask<Void, Void, List<Recipe>> {
 
     private static final String TAG = RecipesFetcher.class.getSimpleName();
@@ -54,6 +58,9 @@ public class RecipesFetcher extends AsyncTask<Void, Void, List<Recipe>> {
         mOnRecipesFetchedListener.onRecipesFetched(recipes);
     }
 
+    /**
+     * Listener that will be notified once the heavy network operation is done.
+     */
     public interface OnRecipesFetchedListener {
         void onRecipesFetched(List<Recipe> recipeList);
     }

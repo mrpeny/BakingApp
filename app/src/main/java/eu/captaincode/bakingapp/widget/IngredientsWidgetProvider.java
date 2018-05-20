@@ -14,7 +14,7 @@ import eu.captaincode.bakingapp.R;
 import eu.captaincode.bakingapp.model.Recipe;
 
 /**
- * Implementation of BakingApp Widget functionality.
+ * Implements the BakingApp Widget functionality.
  */
 public class IngredientsWidgetProvider extends AppWidgetProvider {
     public static final String ACTION_RECIPE_CHANGED =

@@ -5,6 +5,9 @@ import android.os.Parcelable;
 
 import com.google.gson.annotations.SerializedName;
 
+/**
+ * Represents an ingredient of a recipe fetched from the Web resource.
+ */
 public class Ingredient implements Parcelable {
     public static final Creator<Ingredient> CREATOR = new Creator<Ingredient>() {
         @Override

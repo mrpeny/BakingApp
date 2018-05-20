@@ -5,6 +5,9 @@ import android.os.Parcelable;
 
 import com.google.gson.annotations.SerializedName;
 
+/**
+ * Represents a step of a cooking procedure of a recipe fetched from the Web resource.
+ */
 public class Step implements Parcelable {
     public static final Creator<Step> CREATOR = new Creator<Step>() {
         @Override

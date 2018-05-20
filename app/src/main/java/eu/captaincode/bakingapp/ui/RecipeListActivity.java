@@ -55,6 +55,7 @@ public class RecipeListActivity extends AppCompatActivity
     public void onRecipeClicked(int position) {
         Recipe recipe = mRecipeList.get(position);
 
+        // Updates home screen widget so show the ingredients of the selected recipe
         sendUpdateWidgetBroadcast(recipe);
         launchDetailActivity(recipe);
     }
@@ -72,6 +73,9 @@ public class RecipeListActivity extends AppCompatActivity
         startActivity(launchDetailActivityIntent);
     }
 
+    /**
+     * Returns the {@link IdlingResource } associated with the App for testing purposes
+     */
     @VisibleForTesting
     @NonNull
     public IdlingResource getIdlingResource() {

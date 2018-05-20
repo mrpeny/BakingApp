@@ -6,6 +6,9 @@ import android.util.Log;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
+/**
+ * Provides logic for signaling <strong>idle states</strong> of the App for testing purposes.
+ */
 public class SimpleIdlingResource implements IdlingResource {
 
     private static final String TAG = SimpleIdlingResource.class.getSimpleName();
@@ -33,6 +36,11 @@ public class SimpleIdlingResource implements IdlingResource {
         this.mCallback = callback;
     }
 
+    /**
+     * Sets the idle state flag of the App and notifies registered callback about transition change.
+     *
+     * @param isIdleNow True indicates the App is idle, ready for testing, false otherwise
+     */
     public void setIdleState(boolean isIdleNow) {
         Log.d(TAG, "setIdleState: " + isIdleNow);
 

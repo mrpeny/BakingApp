@@ -91,6 +91,9 @@ public class RecipeDetailListFragment extends Fragment implements StepAdapter.On
         mListener.onStepSelected(stepPosition);
     }
 
+    /**
+     * Notifies implementing classes when user selects a step to show details about.
+     */
     public interface OnStepSelectedListener {
         void onStepSelected(int stepPosition);
     }
