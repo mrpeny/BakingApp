@@ -35,14 +35,16 @@ import eu.captaincode.bakingapp.model.Step;
 public class StepDetailFragment extends Fragment {
     private static final String ARG_RECIPE = "recipe";
     private static final String ARG_STEP_POSITION = "step-position";
-    public static final String VIDEO_POSITION = "video-position";
+    public static final String STATE_VIDEO_POSITION = "video-position";
+    public static final String STATE_PLAY_WHEN_READY = "play-when-ready";
 
-    private Recipe mRecipe;
-    private int mStepPosition;
     private SimpleExoPlayer mPlayer;
     private SimpleExoPlayerView mSimpleExoPlayerView;
     private long mVideoPosition;
     private Step mStep;
+    private MediaSource mVideoSource;
+    private TrackSelector mTrackSelector;
+    private boolean mPlayWhenReadyState;
 
     public StepDetailFragment() {
         // Required empty public constructor
@@ -61,9 +63,9 @@ public class StepDetailFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mRecipe = getArguments().getParcelable(ARG_RECIPE);
-            mStepPosition = getArguments().getInt(ARG_STEP_POSITION);
-            mStep = mRecipe.getSteps().get(mStepPosition);
+            Recipe recipe = getArguments().getParcelable(ARG_RECIPE);
+            int stepPosition = getArguments().getInt(ARG_STEP_POSITION);
+            mStep = recipe.getSteps().get(stepPosition);
         }
     }
 
@@ -76,7 +78,8 @@ public class StepDetailFragment extends Fragment {
             bindStepToUi(stepDetailBinding);
         }
         if (savedInstanceState != null) {
-            mVideoPosition = savedInstanceState.getLong(VIDEO_POSITION);
+            mVideoPosition = savedInstanceState.getLong(STATE_VIDEO_POSITION, 0);
+            mPlayWhenReadyState = savedInstanceState.getBoolean(STATE_PLAY_WHEN_READY, false);
         }
         return stepDetailBinding.getRoot();
     }
@@ -99,46 +102,51 @@ public class StepDetailFragment extends Fragment {
         BandwidthMeter bandwidthMeter = new DefaultBandwidthMeter();
         TrackSelection.Factory videoTrackSelectionFactory =
                 new AdaptiveTrackSelection.Factory(bandwidthMeter);
-        TrackSelector trackSelector = new DefaultTrackSelector(videoTrackSelectionFactory);
+        mTrackSelector = new DefaultTrackSelector(videoTrackSelectionFactory);
 
-        mPlayer = ExoPlayerFactory.newSimpleInstance(getActivity(), trackSelector);
+        mPlayer = ExoPlayerFactory.newSimpleInstance(getActivity(), mTrackSelector);
         mSimpleExoPlayerView.setPlayer(mPlayer);
 
         DataSource.Factory dataSourceFactory = new DefaultDataSourceFactory(getActivity(),
                 Util.getUserAgent(getActivity(), getString(R.string.app_name)));
         ExtractorsFactory extractorsFactory = new DefaultExtractorsFactory();
         Uri videoUri = Uri.parse(mStep.getVideoUrl());
-        MediaSource videoSource = new ExtractorMediaSource(videoUri, dataSourceFactory,
+        mVideoSource = new ExtractorMediaSource(videoUri, dataSourceFactory,
                 extractorsFactory, null, null);
 
-        mPlayer.prepare(videoSource);
-        mPlayer.setPlayWhenReady(true);
+        mPlayer.prepare(mVideoSource);
+        mPlayer.setPlayWhenReady(mPlayWhenReadyState);
         mPlayer.seekTo(mVideoPosition);
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        mPlayer.setPlayWhenReady(false);
+        mVideoPosition = mPlayer.getCurrentPosition();
+        mPlayWhenReadyState = mPlayer.getPlayWhenReady();
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
+    public void onStop() {
+        super.onStop();
         releasePlayer();
     }
 
     private void releasePlayer() {
         if (mPlayer != null) {
+            mPlayer.stop();
             mPlayer.release();
             mPlayer = null;
+            mVideoSource = null;
+            mTrackSelector = null;
         }
     }
 
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         long currentPosition = mPlayer.getCurrentPosition();
-        outState.putLong(VIDEO_POSITION, currentPosition);
+        outState.putLong(STATE_VIDEO_POSITION, currentPosition);
+        outState.putBoolean(STATE_PLAY_WHEN_READY, mPlayWhenReadyState);
         super.onSaveInstanceState(outState);
     }
 }

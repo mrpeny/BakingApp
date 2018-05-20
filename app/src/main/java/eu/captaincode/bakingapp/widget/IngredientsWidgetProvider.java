@@ -6,31 +6,21 @@ import android.appwidget.AppWidgetProvider;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.preference.PreferenceManager;
 import android.widget.RemoteViews;
 
-import com.google.gson.Gson;
-
 import eu.captaincode.bakingapp.R;
-import eu.captaincode.bakingapp.model.Recipe;
+import eu.captaincode.bakingapp.service.WidgetUpdateService;
 import eu.captaincode.bakingapp.ui.RecipeDetailActivity;
 
 /**
  * Implements the BakingApp Widget functionality.
  */
 public class IngredientsWidgetProvider extends AppWidgetProvider {
-    public static final String ACTION_RECIPE_CHANGED =
-            "eu.captaincode.bakingapp.action.RECIPE_CHANGED";
-    public static final String EXTRA_RECIPE = "recipe";
-    private Recipe mRecipe;
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        if (intent.getAction() != null && intent.getAction().equals(ACTION_RECIPE_CHANGED)) {
-            mRecipe = intent.getParcelableExtra(EXTRA_RECIPE);
-            String recipeJson = new Gson().toJson(mRecipe);
-            PreferenceManager.getDefaultSharedPreferences(context).edit()
-                    .putString(ListRemoteViewsFactory.PREF_KEY_RECIPE, recipeJson).apply();
+        if (intent.getAction() != null &&
+                intent.getAction().equals(WidgetUpdateService.ACTION_RECIPE_CHANGED)) {
             AppWidgetManager.getInstance(context).notifyAppWidgetViewDataChanged(
                     getAppWidgetIds(context), R.id.lv_ingredients_widget_ingredients_list);
         }
