@@ -25,7 +25,7 @@ public class RecipeDetailActivity extends AppCompatActivity
             setTitle(mRecipe.getName());
         }
 
-        if (findViewById(R.id.container_step_detail) != null) {
+        if (getResources().getBoolean(R.bool.isTablet)) {
             mTwoPane = true;
         }
 
