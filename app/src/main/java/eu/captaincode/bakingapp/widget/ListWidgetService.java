@@ -15,6 +15,7 @@ import java.util.List;
 import eu.captaincode.bakingapp.R;
 import eu.captaincode.bakingapp.model.Ingredient;
 import eu.captaincode.bakingapp.model.Recipe;
+import eu.captaincode.bakingapp.ui.RecipeDetailActivity;
 
 public class ListWidgetService extends RemoteViewsService {
 
@@ -70,13 +71,24 @@ class ListRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory,
         RemoteViews remoteViews = new RemoteViews(mContext.getPackageName(),
                 R.layout.widget_ingredient_item);
 
+        populateTextViews(position, remoteViews);
+        setOnClickIntent(remoteViews);
+
+        return remoteViews;
+    }
+
+    private void populateTextViews(int position, RemoteViews remoteViews) {
         Ingredient ingredient = mIngredients.get(position);
         remoteViews.setTextViewText(R.id.tv_ingredient_item_ingredient, ingredient.getIngredient());
         remoteViews.setTextViewText(R.id.tv_ingredient_item_measure, ingredient.getMeasure());
         remoteViews.setTextViewText(R.id.tv_ingredient_item_quantity,
                 String.valueOf(ingredient.getQuantity()));
+    }
 
-        return remoteViews;
+    private void setOnClickIntent(RemoteViews remoteViews) {
+        Intent fillInIntent = new Intent();
+        fillInIntent.putExtra(RecipeDetailActivity.EXTRA_RECIPE, mRecipe);
+        remoteViews.setOnClickFillInIntent(R.id.ll_ingredient_item_container, fillInIntent);
     }
 
     @Override

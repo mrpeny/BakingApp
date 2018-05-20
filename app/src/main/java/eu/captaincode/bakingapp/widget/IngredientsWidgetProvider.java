@@ -1,5 +1,6 @@
 package eu.captaincode.bakingapp.widget;
 
+import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.ComponentName;
@@ -12,6 +13,7 @@ import com.google.gson.Gson;
 
 import eu.captaincode.bakingapp.R;
 import eu.captaincode.bakingapp.model.Recipe;
+import eu.captaincode.bakingapp.ui.RecipeDetailActivity;
 
 /**
  * Implements the BakingApp Widget functionality.
@@ -43,7 +45,17 @@ public class IngredientsWidgetProvider extends AppWidgetProvider {
         views.setRemoteAdapter(R.id.lv_ingredients_widget_ingredients_list, widgetAdapterIntent);
         views.setEmptyView(R.id.lv_ingredients_widget_ingredients_list, R.id.appwidget_empty_text);
 
+        addPendingIntentTemplate(context, views);
+
         appWidgetManager.updateAppWidget(appWidgetId, views);
+    }
+
+    private void addPendingIntentTemplate(Context context, RemoteViews views) {
+        Intent launchDetailActivityIntent = new Intent(context, RecipeDetailActivity.class);
+        PendingIntent launchDetailActivityPendingIntent = PendingIntent.getActivity(context, 0,
+                launchDetailActivityIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        views.setPendingIntentTemplate(R.id.lv_ingredients_widget_ingredients_list,
+                launchDetailActivityPendingIntent);
     }
 
     @Override

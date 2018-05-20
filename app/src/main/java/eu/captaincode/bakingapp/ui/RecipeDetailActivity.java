@@ -29,7 +29,6 @@ public class RecipeDetailActivity extends AppCompatActivity
             mTwoPane = true;
         }
 
-
         RecipeDetailListFragment recipeDetailListFragment =
                 RecipeDetailListFragment.newInstance(mRecipe);
         getSupportFragmentManager().beginTransaction()
