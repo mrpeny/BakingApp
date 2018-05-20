@@ -20,6 +20,7 @@ import eu.captaincode.bakingapp.R;
 import eu.captaincode.bakingapp.adapter.RecipeListAdapter;
 import eu.captaincode.bakingapp.model.Recipe;
 import eu.captaincode.bakingapp.network.RecipesFetcher;
+import eu.captaincode.bakingapp.service.WidgetUpdateService;
 import eu.captaincode.bakingapp.widget.IngredientsWidgetProvider;
 
 public class RecipeListActivity extends AppCompatActivity
@@ -45,7 +46,7 @@ public class RecipeListActivity extends AppCompatActivity
         setAppIdleState(false);
 
         mRecipeClickReceiver = new IngredientsWidgetProvider();
-        IntentFilter intentFilter = new IntentFilter(IngredientsWidgetProvider.ACTION_RECIPE_CHANGED);
+        IntentFilter intentFilter = new IntentFilter(WidgetUpdateService.ACTION_RECIPE_CHANGED);
         LocalBroadcastManager.getInstance(getApplicationContext())
                 .registerReceiver(mRecipeClickReceiver, intentFilter);
 
@@ -76,10 +77,10 @@ public class RecipeListActivity extends AppCompatActivity
     }
 
     private void sendUpdateWidgetBroadcast(Recipe recipe) {
-        Intent intent = new Intent(getApplicationContext(), IngredientsWidgetProvider.class);
-        intent.setAction(IngredientsWidgetProvider.ACTION_RECIPE_CHANGED);
-        intent.putExtra(IngredientsWidgetProvider.EXTRA_RECIPE, recipe);
-        LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
+        Intent widgetUpdateIntent = new Intent(this, WidgetUpdateService.class);
+        widgetUpdateIntent.setAction(WidgetUpdateService.ACTION_RECIPE_CHANGED);
+        widgetUpdateIntent.putExtra(WidgetUpdateService.EXTRA_RECIPE, recipe);
+        startService(widgetUpdateIntent);
     }
 
     private void launchDetailActivity(Recipe recipe) {

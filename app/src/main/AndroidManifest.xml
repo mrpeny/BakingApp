@@ -43,6 +43,8 @@
         <service
             android:name=".widget.ListWidgetService"
             android:permission="android.permission.BIND_REMOTEVIEWS" />
+
+        <service android:name=".service.WidgetUpdateService" />
     </application>
 
 </manifest>
