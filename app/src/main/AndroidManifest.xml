@@ -29,7 +29,6 @@
         <receiver android:name=".widget.IngredientsWidgetProvider">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
-                <action android:name="eu.captaincode.bakingapp.action.RECIPE_CHANGED" />
             </intent-filter>
 
             <meta-data

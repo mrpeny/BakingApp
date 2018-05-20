@@ -1,10 +1,13 @@
 package eu.captaincode.bakingapp.ui;
 
+import android.content.BroadcastReceiver;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
 import android.support.test.espresso.IdlingResource;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -25,6 +28,7 @@ public class RecipeListActivity extends AppCompatActivity
     private List<Recipe> mRecipeList = new ArrayList<>();
     private RecipeListAdapter mAdapter;
     private SimpleIdlingResource mIdlingResource;
+    private BroadcastReceiver mRecipeClickReceiver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +43,20 @@ public class RecipeListActivity extends AppCompatActivity
 
         getIdlingResource();
         setAppIdleState(false);
+
+        mRecipeClickReceiver = new IngredientsWidgetProvider();
+        IntentFilter intentFilter = new IntentFilter(IngredientsWidgetProvider.ACTION_RECIPE_CHANGED);
+        LocalBroadcastManager.getInstance(getApplicationContext())
+                .registerReceiver(mRecipeClickReceiver, intentFilter);
+
         new RecipesFetcher(this).execute();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        LocalBroadcastManager.getInstance(getApplicationContext())
+                .unregisterReceiver(mRecipeClickReceiver);
     }
 
     @Override
@@ -47,14 +64,12 @@ public class RecipeListActivity extends AppCompatActivity
         if (recipeList != null) {
             mAdapter.swapData(recipeList);
         }
-
         setAppIdleState(true);
     }
 
     @Override
     public void onRecipeClicked(int position) {
         Recipe recipe = mRecipeList.get(position);
-
         // Updates home screen widget so show the ingredients of the selected recipe
         sendUpdateWidgetBroadcast(recipe);
         launchDetailActivity(recipe);
@@ -64,7 +79,7 @@ public class RecipeListActivity extends AppCompatActivity
         Intent intent = new Intent(getApplicationContext(), IngredientsWidgetProvider.class);
         intent.setAction(IngredientsWidgetProvider.ACTION_RECIPE_CHANGED);
         intent.putExtra(IngredientsWidgetProvider.EXTRA_RECIPE, recipe);
-        getApplicationContext().sendBroadcast(intent);
+        LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
     }
 
     private void launchDetailActivity(Recipe recipe) {
