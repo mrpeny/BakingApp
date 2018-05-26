@@ -6,6 +6,7 @@ import android.appwidget.AppWidgetProvider;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.support.v4.app.TaskStackBuilder;
 import android.widget.RemoteViews;
 
 import eu.captaincode.bakingapp.R;
@@ -42,8 +43,9 @@ public class IngredientsWidgetProvider extends AppWidgetProvider {
 
     private void addPendingIntentTemplate(Context context, RemoteViews views) {
         Intent launchDetailActivityIntent = new Intent(context, RecipeDetailActivity.class);
-        PendingIntent launchDetailActivityPendingIntent = PendingIntent.getActivity(context, 0,
-                launchDetailActivityIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent launchDetailActivityPendingIntent = TaskStackBuilder.create(context)
+                .addNextIntentWithParentStack(launchDetailActivityIntent)
+                .getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
         views.setPendingIntentTemplate(R.id.lv_ingredients_widget_ingredients_list,
                 launchDetailActivityPendingIntent);
     }
