@@ -2,7 +2,11 @@ package eu.captaincode.bakingapp.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.NavUtils;
+import android.support.v4.app.TaskStackBuilder;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+import android.view.MenuItem;
 
 import eu.captaincode.bakingapp.R;
 import eu.captaincode.bakingapp.model.Recipe;
@@ -10,6 +14,7 @@ import eu.captaincode.bakingapp.model.Recipe;
 public class RecipeDetailActivity extends AppCompatActivity
         implements RecipeDetailListFragment.OnStepSelectedListener {
     public static final String EXTRA_RECIPE = "recipe";
+    private static final String TAG = RecipeDetailActivity.class.getSimpleName();
 
     private boolean mTwoPane;
     private Recipe mRecipe;
@@ -25,6 +30,8 @@ public class RecipeDetailActivity extends AppCompatActivity
             setTitle(mRecipe.getName());
         }
 
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         if (getResources().getBoolean(R.bool.isTablet)) {
             mTwoPane = true;
         }
@@ -34,6 +41,23 @@ public class RecipeDetailActivity extends AppCompatActivity
         getSupportFragmentManager().beginTransaction()
                 .add(R.id.container_recipe_detail_list, recipeDetailListFragment)
                 .commit();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                Intent upIntent = NavUtils.getParentActivityIntent(this);
+                if (NavUtils.shouldUpRecreateTask(this, upIntent)) {
+                    Log.d(TAG, "Up Should Recreate Task");
+                    TaskStackBuilder.create(this).addNextIntentWithParentStack(upIntent).startActivities();
+                } else {
+                    Log.d(TAG, "Up Should NOT Recreate Task");
+                    NavUtils.navigateUpFromSameTask(this);
+                }
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override

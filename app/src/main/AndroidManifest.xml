@@ -20,7 +20,6 @@
         </activity>
         <activity
             android:name=".ui.RecipeDetailActivity"
-            android:launchMode="singleTop"
             android:parentActivityName=".ui.RecipeListActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -28,7 +27,12 @@
         </activity>
         <activity
             android:name=".ui.StepDetailActivity"
-            android:parentActivityName=".ui.RecipeDetailActivity" />
+            android:parentActivityName=".ui.RecipeDetailActivity">
+
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="eu.captaincode.bakingapp.ui.RecipeListActivity" />
+        </activity>
 
         <receiver android:name=".widget.IngredientsWidgetProvider">
             <intent-filter>
